@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky",
-    "commitlint": "commitlint --edit"
+    "commitlint": "commitlint --edit",
+    "json-server": "json-server --watch ./__json_server_mock__/db.json --port 2999"
   },
   "eslintConfig": {
     "extends": [
