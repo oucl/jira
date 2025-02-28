@@ -6,7 +6,7 @@ interface ListProps {
 }
 export function List({ tableData, users }: ListProps) {
   return (
-    <Table dataSource={tableData}>
+    <Table dataSource={tableData} rowKey={"id"}>
       <Table.Column title={"项目名称"} dataIndex={"projectTitle"} />
       <Table.Column
         title={"负责人"}
