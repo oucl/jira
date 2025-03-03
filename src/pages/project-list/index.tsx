@@ -30,7 +30,6 @@ export function ProjectList() {
       }
     });
   });
-  console.log("777 :>> ", 777);
   return (
     <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
       <SearchPanel users={users} params={params} setParams={setParams} />
