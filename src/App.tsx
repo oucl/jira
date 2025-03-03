@@ -3,12 +3,14 @@ import React from "react";
 import "./App.css";
 import { ProjectList } from "pages/project-list";
 import { TryUseArray } from "./pages/project-list/try-use-array";
+import { LoginPage } from "./pages/login/index";
 
 function App() {
   return (
     <div className="App">
-      <ProjectList></ProjectList>
-      <TryUseArray></TryUseArray>
+      {/* <ProjectList></ProjectList>
+      <TryUseArray></TryUseArray> */}
+      <LoginPage></LoginPage>
     </div>
   );
 }
