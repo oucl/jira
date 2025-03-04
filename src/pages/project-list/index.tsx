@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { clearObject } from "utils";
 import { useMount } from "utils/use";
 import { useHttp } from "utils/http";
-import { Flex, Button, Divider } from "antd";
-import { useAuth } from "context/auth-context";
+import styled from "@emotion/styled";
 
 export function ProjectList() {
   const [users, setUsers] = useState([]);
-  const [params, setParams] = useState({ projectTitle: "", personId: "" });
+  const [params, setParams] = useState({
+    projectTitle: "",
+    personId: undefined,
+  });
   const [tableData, setTableData] = useState([]);
-  const auth = useAuth();
   const userHttp = useHttp();
   useEffect(() => {
     userHttp("projects", { data: clearObject(params) }).then(setTableData);
@@ -21,16 +22,12 @@ export function ProjectList() {
     userHttp("users").then(setUsers);
   });
   return (
-    <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
-      <Flex justify="flex-end" align="center" style={{ marginBottom: "20px" }}>
-        {auth.user?.username}
-        <Divider type="vertical"></Divider>
-        <Button type="default" onClick={() => auth.logout()}>
-          退出
-        </Button>
-      </Flex>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel users={users} params={params} setParams={setParams} />
       <List users={users} tableData={tableData} />
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div``;

@@ -56,5 +56,17 @@ export const logout = async () =>
 
 export const getCurrentUser = () => {
   const token = getToken();
-  return http(`users/${token}`);
+  return http(`users/${token}`).then((res) => {
+    const oneUser = {
+      username: res.name,
+      userId: res.id,
+      token: res.id,
+    };
+    console.log("111111 :>> ", oneUser);
+    if (oneUser?.token) {
+      return handleUserResponse(oneUser);
+    } else {
+      return Promise.reject(oneUser);
+    }
+  });
 };
