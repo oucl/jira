@@ -37,7 +37,12 @@ export const register = (data: { username: string; password: string }) => {
     age: 18,
   };
   return http("users", { method: "POST", data: params }).then((res) => {
-    const oneUser = res;
+    const oneUser = {
+      username: res.name,
+      userId: res.id,
+      token: res.id,
+    };
+    console.log("111111 :>> ", oneUser);
     if (oneUser?.token) {
       return handleUserResponse(oneUser);
     } else {
