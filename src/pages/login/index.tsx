@@ -1,24 +1,18 @@
 import { Checkbox, Form, Input, Button } from "antd";
+import { AuthForm, useAuth } from "context/auth-context";
 import { useState } from "react";
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 export const LoginPage = () => {
-  const [loginForm] = useState({
+  const g_User = useAuth();
+  //
+  const [loginForm] = useState<AuthForm>({
     username: "",
     password: "",
     remember: true,
   });
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
-    fetch(`${apiBaseUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    }).then((res) => {
-      console.log("111 :>> ", res);
-    });
+    g_User?.login(values);
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -26,6 +20,8 @@ export const LoginPage = () => {
 
   return (
     <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
+      <div>username：{g_User?.user?.username}</div>
+      <div>password：{g_User?.user?.password}</div>
       <Form
         name="loginForm"
         labelCol={{ span: 8 }}

@@ -2,36 +2,33 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useEffect, useState } from "react";
 import { clearObject } from "utils";
-import qs from "qs";
 import { useMount } from "utils/use";
+import { useHttp } from "utils/http";
+import { Flex, Button, Divider } from "antd";
+import { useAuth } from "context/auth-context";
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 export function ProjectList() {
   const [users, setUsers] = useState([]);
   const [params, setParams] = useState({ projectTitle: "", personId: "" });
   const [tableData, setTableData] = useState([]);
+  const auth = useAuth();
+  const userHttp = useHttp();
   useEffect(() => {
-    const searchParams = clearObject(params);
-    fetch(`${apiBaseUrl}/projects?${qs.stringify(searchParams)}`).then(
-      async (response) => {
-        if (response.ok) {
-          const data = await response.json();
-          setTableData(data);
-        }
-      },
-    );
+    userHttp("projects", { data: clearObject(params) }).then(setTableData);
   }, [params]);
 
   useMount(() => {
-    fetch(`${apiBaseUrl}/users`).then(async (response) => {
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data);
-      }
-    });
+    userHttp("users").then(setUsers);
   });
   return (
     <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
+      <Flex justify="flex-end" align="center" style={{ marginBottom: "20px" }}>
+        {auth.user?.username}
+        <Divider type="vertical"></Divider>
+        <Button type="default" onClick={() => auth.logout()}>
+          退出
+        </Button>
+      </Flex>
       <SearchPanel users={users} params={params} setParams={setParams} />
       <List users={users} tableData={tableData} />
     </div>
