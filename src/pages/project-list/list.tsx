@@ -1,13 +1,12 @@
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 
-interface ListProps {
-  tableData: any[];
+interface ListProps extends TableProps<any> {
   users: any[];
 }
-export function List({ tableData, users }: ListProps) {
+export const List = ({ users, ...tableProps }: ListProps) => {
   return (
     <Table
-      dataSource={tableData}
+      {...tableProps}
       rowKey={"id"}
       columns={[
         {
@@ -27,4 +26,4 @@ export function List({ tableData, users }: ListProps) {
       ]}
     />
   );
-}
+};

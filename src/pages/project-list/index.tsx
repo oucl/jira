@@ -25,7 +25,7 @@ export function ProjectList() {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel users={users} params={params} setParams={setParams} />
-      <List users={users} tableData={tableData} />
+      <List users={users} dataSource={tableData} />
     </Container>
   );
 }
