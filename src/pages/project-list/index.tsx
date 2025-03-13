@@ -1,31 +1,31 @@
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { useEffect, useState } from "react";
-import { clearObject } from "utils";
-import { useMount } from "utils/use";
-import { useHttp } from "utils/http";
+import { useState } from "react";
 import styled from "@emotion/styled";
+import { useProjects } from "utils/useProjects";
+import { useUsers } from "utils/useUsers";
 
 export function ProjectList() {
-  const [users, setUsers] = useState([]);
   const [params, setParams] = useState({
     projectTitle: "",
     personId: undefined,
   });
-  const [tableData, setTableData] = useState([]);
-  const userHttp = useHttp();
-  useEffect(() => {
-    userHttp("projects", { data: clearObject(params) }).then(setTableData);
-  }, [params]);
+  const { data: projectData, isLoading } = useProjects(params);
+  const { data: userData } = useUsers();
 
-  useMount(() => {
-    userHttp("users").then(setUsers);
-  });
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel users={users} params={params} setParams={setParams} />
-      <List users={users} dataSource={tableData} />
+      <SearchPanel
+        users={userData || []}
+        params={params}
+        setParams={setParams}
+      />
+      <List
+        users={userData || []}
+        dataSource={projectData || []}
+        loading={isLoading}
+      />
     </Container>
   );
 }
